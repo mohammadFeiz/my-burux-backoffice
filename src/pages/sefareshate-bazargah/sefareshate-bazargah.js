@@ -15,17 +15,9 @@ export default class SefareshateBazargah extends Component{
       showDetail:false
     }
   }
-  componentDidMount(){
-    let items = [
-      {orderNumber:'4324',orderDate:'1400/3/3',firstname:'محمد',lastname:'فیض',state:'تهران',city:'تهران',mobile:'09123534314',orderAmount:12345678,orderStatus:'0',"latitude": 35.699739,"longitude": 51.338097},
-      {orderNumber:'4324',orderDate:'1400/3/3',firstname:'محمد',lastname:'فیض',state:'تهران',city:'تهران',mobile:'09123534314',orderAmount:12345678,orderStatus:'1',"latitude": 35.699739,"longitude": 51.338097},
-      {orderNumber:'4324',orderDate:'1400/3/3',firstname:'محمد',lastname:'فیض',state:'تهران',city:'تهران',mobile:'09123534314',orderAmount:12345678,orderStatus:'2',"latitude": 35.699739,"longitude": 51.338097},
-      {orderNumber:'4324',orderDate:'1400/3/3',firstname:'محمد',lastname:'فیض',state:'تهران',city:'تهران',mobile:'09123534314',orderAmount:12345678,orderStatus:'3',"latitude": 35.699739,"longitude": 51.338097},
-      {orderNumber:'4324',orderDate:'1400/3/3',firstname:'محمد',lastname:'فیض',state:'تهران',city:'تهران',mobile:'09123534314',orderAmount:12345678,orderStatus:'4',"latitude": 35.699739,"longitude": 51.338097},
-      {orderNumber:'4324',orderDate:'1400/3/3',firstname:'محمد',lastname:'فیض',state:'تهران',city:'تهران',mobile:'09123534314',orderAmount:12345678,orderStatus:'1',"latitude": 35.699739,"longitude": 51.338097},
-      {orderNumber:'4324',orderDate:'1400/3/3',firstname:'محمد',lastname:'فیض',state:'تهران',city:'تهران',mobile:'09123534314',orderAmount:12345678,orderStatus:'2',"latitude": 35.699739,"longitude": 51.338097},
-      {orderNumber:'4324',orderDate:'1400/3/3',firstname:'محمد',lastname:'فیض',state:'تهران',city:'تهران',mobile:'09123534314',orderAmount:12345678,orderStatus:'3',"latitude": 35.699739,"longitude": 51.338097}
-    ]
+  async componentDidMount(){
+    let {services} = this.context;
+    let items = await services({type:'sefareshate_bazargah'});
     this.setState({items})
   }
   header_layout(){return {html:<PageHeader title='سفارشات بازارگاه'/>}}
@@ -129,21 +121,9 @@ class JoziateSefaresheBazargah extends Component{
       activeTabId:'0'
     }
   }
-  componentDidMount(){
-    let history = [
-      {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'},
-      {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'},
-      {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'},
-      {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'},
-      {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'},
-      {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'},
-      {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'},
-      {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'},
-      {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'},
-      {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'},
-      {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'},
-      {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'}
-    ]
+  async componentDidMount(){
+    let {services} = this.context;
+    let history = await services({type:'tarikhche_taghire_vaziate_bazargah'})
     this.setState({history})
   }
   header_layout(){

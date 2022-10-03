@@ -10,6 +10,7 @@ import UserForm from './../../components/user-form/user-form';
 import {Icon} from '@mdi/react';
 import {mdiDotsHorizontal,mdiClose} from '@mdi/js';
 import Table from './../../components/table/index';
+import services from '../../services';
 export default class DarkhasteBardasht extends Component{
   static contextType = AppContext;
   constructor(props){
@@ -19,17 +20,9 @@ export default class DarkhasteBardasht extends Component{
       showDetail:false
     }
   }
-  componentDidMount(){
-    let items = [
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'0'},
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'1'},
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'1'},
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'2'},
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'2'},
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'3'},
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'4'},
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'4'},
-    ]
+  async componentDidMount(){
+    let {services} = this.context;
+    let items = await services({type:'darkhaste_bardasht'})
     let {users} = this.context;
     let usersDic = {}
     for(let i = 0; i < users.length; i++){
@@ -152,17 +145,10 @@ class JoziateDarkhasteBardasht extends Component{
       activeTabId:'1'
     }
   }
-  componentDidMount(){
-    let history = [
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'0'},
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'1'},
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'1'},
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'2'},
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'2'},
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'3'},
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'4'},
-      {requestCount:1,requestDate:'1401/4/5 12:20',amount:1234567,darkhasteBardashtStatus:'0',userId:'4'},
-    ]
+  async componentDidMount(){
+    let {services} = this.context;
+    let {model} = this.props;
+    let history = await services({type:'darkhaste_bardasht_history',parameter:{userId:model.userId}})
     let {users} = this.context;
     let usersDic = {}
     for(let i = 0; i < users.length; i++){
@@ -171,7 +157,7 @@ class JoziateDarkhasteBardasht extends Component{
     }
     
     this.setState({history:history.map((o)=>{
-      return {...o,...usersDic[o.userId]}
+      return {...o,...usersDic[model.userId]}
     })})
   }
   header_layout(){

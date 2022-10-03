@@ -12,6 +12,7 @@
     "aio-swip": "^1.0.0",
     "aio-table": "^7.1.1",
     "aio-validation": "^3.0.2",
+    "axios": "^0.27.2",
     "gah-datepicker": "^4.0.5",
     "jquery": "3.6.1",
     "r-range-slider": "^4.1.3",

@@ -1,4 +1,4 @@
-import React,{Component,useState,useEffect,useRef,createRef} from 'react';
+import React,{Component,createRef} from 'react';
 import {Icon} from '@mdi/react';
 import {mdiPrinter,mdiClose,mdiChevronLeft,mdiChevronRight,mdiPlusThick,mdiAttachment} from '@mdi/js';
 import RRangeSlider from 'r-range-slider';

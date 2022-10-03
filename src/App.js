@@ -6,11 +6,13 @@ import Karbaran from './pages/karbaran/karbaran';
 import DarkhasteBardasht from './pages/darkhaste-bardasht/darkhaste-bardasht';
 import TarikhcheGardoone from './pages/tarikhche-gardoone/tarikhche-gardoone';
 import SefareshateBazargah from './pages/sefareshate-bazargah/sefareshate-bazargah';
+import Services from './services';
 import './style.css';
 export default class App extends Component {
   constructor(props){
     super(props);
     this.state = {
+      services:Services(()=>this.state),
       sideActiveIndex:4,
       activityStatuses:{'0':'در انتظار تایید','1':'تایید شده','2':'رد شده'},
       darkhasteBardashtStatuses:{'0':'در انتظار تایید','1':'در انتظار پرداخت','2':'پرداخت شده','3':'رد شده'},
@@ -28,30 +30,13 @@ export default class App extends Component {
       user:{
         name:'کیانا کاوه'
       },
-      users:[
-        {
-          id:'0',firstname:'محمد',lastname:'فیض',code:'123456',mobile:'09123534314',phone:'02188050006',cardNumber:'6219861033538751',
-          state:'تهران',city:'تهران',activityStatus:'0',"latitude": 35.699739,"longitude": 51.338097,shopName:'فروشگاه 1'
-        },
-        {
-          id:'1',firstname:'محمد',lastname:'فیض',code:'123456',mobile:'09123534314',phone:'02188050006',cardNumber:'6219861033538751',
-          state:'تهران',city:'تهران',activityStatus:'0',"latitude": 35.699739,"longitude": 51.338097,shopName:'فروشگاه 1'
-        },
-        {
-          id:'2',firstname:'محمد',lastname:'فیض',code:'123456',mobile:'09123534314',phone:'02188050006',cardNumber:'6219861033538751',
-          state:'تهران',city:'تهران',activityStatus:'0',"latitude": 35.699739,"longitude": 51.338097,shopName:'فروشگاه 1'
-        },
-        {
-          id:'3',firstname:'محمد',lastname:'فیض',code:'123456',mobile:'09123534314',phone:'02188050006',cardNumber:'6219861033538751',
-          state:'تهران',city:'تهران',activityStatus:'0',"latitude": 35.699739,"longitude": 51.338097,shopName:'فروشگاه 1'
-        },
-        {
-          id:'4',firstname:'محمد',lastname:'فیض',code:'123456',mobile:'09123534314',phone:'02188050006',cardNumber:'6219861033538751',
-          state:'تهران',city:'تهران',activityStatus:'0',"latitude": 35.699739,"longitude": 51.338097,shopName:'فروشگاه 1'
-        },
-        
-      ]
+      users:[]
     }
+  }
+  async componentDidMount(){
+    let {services} = this.state;
+    let users = await services({type:'users'})
+    this.setState({users})
   }
   splitNumber(price,count = 3,splitter = ','){
     if(!price){return price}

@@ -12,18 +12,12 @@ export default class TarikhcheGardoone extends Component{
   constructor(props){
     super(props);
     this.state = {
-      items:[],
       showDetail:false
     }
   }
-  componentDidMount(){
-    let items = [
-      {winCount:1,tryCount:12,gardooneStatus:true,userId:'0'},
-      {winCount:1,tryCount:12,gardooneStatus:false,userId:'1'},
-      {winCount:1,tryCount:12,gardooneStatus:true,userId:'2'},
-      {winCount:1,tryCount:12,gardooneStatus:false,userId:'3'},
-      {winCount:1,tryCount:12,gardooneStatus:true,userId:'4'}
-    ]
+  async componentDidMount(){
+    let {services} = this.context;
+    let items = await services({type:'tarikhche_gardoone'});
     let {users} = this.context;
     let usersDic = {}
     for(let i = 0; i < users.length; i++){
@@ -139,19 +133,10 @@ class JoziateGardoone extends Component{
       activeTabId:'0'
     }
   }
-  componentDidMount(){
-    let history = [
-      {date:'1401/4/5 12:20',award:'جایزه 1'},
-      {date:'1401/4/5 12:20',award:'جایزه 1'},
-      {date:'1401/4/5 12:20',award:'جایزه 1'},
-      {date:'1401/4/5 12:20',award:'جایزه 1'},
-      {date:'1401/4/5 12:20',award:'جایزه 1'},
-      {date:'1401/4/5 12:20',award:'جایزه 1'},
-      {date:'1401/4/5 12:20',award:'جایزه 1'},
-      {date:'1401/4/5 12:20',award:'جایزه 1'},
-      {date:'1401/4/5 12:20',award:'جایزه 1'},
-      {date:'1401/4/5 12:20',award:'جایزه 1'}
-    ]
+  async componentDidMount(){
+    let {services} = this.context;
+    let {model} = this.props;
+    let history = await services({type:'tarikhche_javayeze_barande_shode',parameter:{userId:model.userId}})
     this.setState({history})
   }
   header_layout(){
