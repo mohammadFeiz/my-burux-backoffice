@@ -5,9 +5,9 @@ import RVD from 'react-virtual-dom';
 import PageHeader from './../../components/page-header/page-header';
 import UserForm from './../../components/user-form/user-form';
 import {Icon} from '@mdi/react';
-import {mdiDotsHorizontal,mdiClose} from '@mdi/js';
+import {mdiDotsHorizontal} from '@mdi/js';
 import Table from './../../components/table/table';
-import services from '../../services';
+import Popup from '../../components/popup/popup';
 export default class TarikhcheGardoone extends Component{
   static contextType = AppContext;
   constructor(props){
@@ -116,35 +116,11 @@ export default class TarikhcheGardoone extends Component{
     )
   }
 }
-
-
 class JoziateGardoone extends Component{
   static contextType = AppContext;
   constructor(props){
     super(props);
-    this.state = {
-      model:props.model,
-      inputs0:[
-        {type:'text',field:'model.requestDate',label:'تاریخ درخواست',rowKey:'1',disabled:true},
-        {type:'html',html:()=>'',rowWidth:12,rowKey:'1'},
-        {type:'text',field:'model.requestCount',label:'تعداد درخواست های فعال',rowKey:'1',disabled:true},
-        {type:'text',field:'model.amount',label:'مبلغ درخواست',rowKey:'2',disabled:true},
-        {type:'html',html:()=>'',rowWidth:12,rowKey:'2'},
-        {type:'text',field:'model.cardNumber',label:'شماره حساب واریزی',rowKey:'2',disabled:true},
-        {type:'html',html:()=>{
-          return <button className='button-1'>تایید و ارجاع به واحد مالی</button>
-        },rowKey:'3',rowWidth:'fit-content'},
-        {type:'html',html:()=>'',rowWidth:12,rowKey:'3'},
-        {type:'html',html:()=>{
-          return <button className='button-2'>رد درخواست</button>
-        },rowKey:'3'}
-      ],
-      tabs:[
-        {text:'تاریخچه جوایز برنده شده',value:'0'},
-        {text:'اطلاعات کاربر',value:'1'},
-      ],
-      activeTabId:'0'
-    }
+    this.state = {}
   }
   async componentDidMount(){
     let {services} = this.context;
@@ -152,19 +128,10 @@ class JoziateGardoone extends Component{
     let history = await services({type:'tarikhche_javayeze_barande_shode',parameter:{userId:model.userId}})
     this.setState({history})
   }
-  header_layout(){
-    let {onClose} = this.props;
-    return {
-      size:48, 
-      className:'bgDDD color323130',
-      row:[
-        {flex:1,html:'درخواست برداشت از کیف پول',align:'v',className:'padding-0-24 size20'},
-        {size:48,html:<Icon path={mdiClose} size={0.8}/>,align:'vh',attrs:{onClick:()=>onClose()}}
-      ]
-    }
-  }
   tarikhcheJavayezeBarandeShode_table(){
     let {history} = this.state;
+    if(!history){return 'loading'}
+    if(!history.length){return 'empty'}
     return (
       <Table
         model={history}
@@ -175,44 +142,19 @@ class JoziateGardoone extends Component{
       />
     )
   }
-  tab0_layout(){
-    let {activeTabId,history} = this.state;
-    if(activeTabId !== '0'){return false}
-    if(!history){return {flex:1,html:'در حال بارگزاری',align:'vh'}}
-    if(!history.length){return {flex:1,html:'موردی موجود نیست',align:'vh'}}
-    return {flex:1,html:this.tarikhcheJavayezeBarandeShode_table()}
+  getContent(tabIndex){
+    if(tabIndex === 0){return this.tarikhcheJavayezeBarandeShode_table()}
+    if(tabIndex === 1){return <UserForm user={this.props.model}/>}
   }
-  tab1_layout(){
-    let {activeTabId} = this.state;
-    let {model} = this.props;
-    if(activeTabId !== '1'){return false}
-    return {flex:1,html:<UserForm user={model}/>}
-  }
-  body_layout(){
-    let {tabs,activeTabId} = this.state;
-    return {
-      flex:1,
-      column:[
-        {html:(<AIOButton type='tabs' options={tabs} value={activeTabId} onChange={(activeTabId)=>this.setState({activeTabId})}/>)},
-        this.tab0_layout(),
-        this.tab1_layout(),
-      ]
-    }
-  }
-  
   render(){
+    let {onClose} = this.props
     return (  
-      <div className='popup full-screen'>
-        <RVD
-          layout={{
-            className:'form',style:{flex:'none'},
-            column:[
-              this.header_layout(),
-              this.body_layout()
-            ]
-          }}
-        />  
-      </div>
+      <Popup
+        title='درخواست برداشت از کیف پول'
+        onClose={onClose}
+        tabs={['تاریخچه جوایز برنده شده','اطلاعات کاربر']}
+        getContent={(tabIndex)=>this.getContent(tabIndex)}
+      />
     )
   }
 }

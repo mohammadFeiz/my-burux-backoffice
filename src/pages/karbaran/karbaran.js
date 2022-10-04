@@ -5,7 +5,8 @@ import AIOButton from 'aio-button';
 import PageHeader from './../../components/page-header/page-header';
 import UserForm from './../../components/user-form/user-form';
 import {Icon} from '@mdi/react';
-import {mdiClose,mdiDotsHorizontal} from '@mdi/js';
+import {mdiDotsHorizontal} from '@mdi/js';
+import Popup from '../../components/popup/popup';
 import AppContext from './../../app-context';
 export default class Karbaran extends Component{
   static contextType = AppContext;
@@ -60,55 +61,18 @@ export default class Karbaran extends Component{
       <>
         <RVD
           layout={{
-            style:{flex:'none'},
-            className:'page',
-            column:[
-              this.header_layout(),
-              this.body_layout()
-            ]
+            style:{flex:'none'},className:'page',
+            column:[this.header_layout(),this.body_layout()]
           }}
         />
-        {
-          showDetail &&
-          <JoziateKarbar
-            model={showDetail}
-            onClose={()=>this.setState({showDetail:false})}
-          />
-        }
+        {showDetail && <JoziateKarbar model={showDetail} onClose={()=>this.setState({showDetail:false})}/>}
       </>
     )
   }
 }
 class JoziateKarbar extends Component{
-  static contextType = AppContext;
-  constructor(props){
-    super(props);
-    this.state = {model:props.model}
-  }
-  header_layout(){
-    let {onClose} = this.props;
-    return {
-      size:48,className:'bgDDD color323130',
-      row:[
-        {flex:1,html:'اطلاعات کاربر',align:'v',className:'padding-0-24 size20'},
-        {size:48,html:<Icon path={mdiClose} size={0.8}/>,align:'vh',attrs:{onClick:()=>onClose()}}
-      ]
-    }
-  }
-  body_layout(){
-    let {model} = this.state;
-    return {flex:1,html:<UserForm user={model}/>}
-  }
   render(){
-    return (  
-      <div className='popup full-screen'>
-        <RVD
-        layout={{
-          className:'form',style:{flex:'none'},
-          column:[this.header_layout(),this.body_layout()]
-        }}
-      />  
-      </div>
-    )
+    let {onClose,model} = this.props;
+    return (<Popup title='اطلاعات کاربر' onClose={onClose} getContent={()=><UserForm user={model}/>}/>)
   }
 }

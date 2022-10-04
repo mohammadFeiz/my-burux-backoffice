@@ -1,12 +1,14 @@
 import React,{Component} from 'react';
 import AIOButton from 'aio-button'; 
 import AppContext from './../../app-context';
+import {splitNumber} from './../../components/super-app/super-app';
 import RVD from 'react-virtual-dom';
 import PageHeader from './../../components/page-header/page-header';
 import OrderForm from './../../components/order-form/order-form';
 import {Icon} from '@mdi/react';
-import {mdiDotsHorizontal,mdiClose} from '@mdi/js';
+import {mdiDotsHorizontal} from '@mdi/js';
 import Table from './../../components/table/table';
+import Popup from '../../components/popup/popup';
 export default class SefareshateBazargah extends Component{
   static contextType = AppContext;
   constructor(props){
@@ -48,7 +50,7 @@ export default class SefareshateBazargah extends Component{
                 />
               )
             },
-            'amount':(row)=>this.context.splitNumber(row.orderAmount) + ' ریال',
+            'amount':(row)=>splitNumber(row.orderAmount) + ' ریال',
             'status':(row)=>bazargahStatuses[row.orderStatus]
           }}
           columns={[
@@ -93,53 +95,17 @@ export default class SefareshateBazargah extends Component{
   }
 }
 
-
 class JoziateSefaresheBazargah extends Component{
   static contextType = AppContext;
-  constructor(props){
-    super(props);
-    this.state = {
-      order:props.order,
-      inputs0:[
-        {type:'text',field:'model.requestDate',label:'تاریخ درخواست',rowKey:'1',disabled:true},
-        {type:'html',html:()=>'',rowWidth:12,rowKey:'1'},
-        {type:'text',field:'model.requestCount',label:'تعداد درخواست های فعال',rowKey:'1',disabled:true},
-        {type:'text',field:'model.amount',label:'مبلغ درخواست',rowKey:'2',disabled:true},
-        {type:'html',html:()=>'',rowWidth:12,rowKey:'2'},
-        {type:'text',field:'model.cardNumber',label:'شماره حساب واریزی',rowKey:'2',disabled:true},
-        {type:'html',html:()=>{
-          return <button className='button-1'>تایید و ارجاع به واحد مالی</button>
-        },rowKey:'3',rowWidth:'fit-content'},
-        {type:'html',html:()=>'',rowWidth:12,rowKey:'3'},
-        {type:'html',html:()=>{
-          return <button className='button-2'>رد درخواست</button>
-        },rowKey:'3'}
-      ],
-      tabs:[
-        {text:'اطلاعات سفارش',value:'0'},
-        {text:'تاریخچه تغییر وضعیت',value:'1'},
-      ],
-      activeTabId:'0'
-    }
-  }
   async componentDidMount(){
     let {services} = this.context;
     let history = await services({type:'tarikhche_taghire_vaziate_bazargah'})
     this.setState({history})
   }
-  header_layout(){
-    let {onClose} = this.props;
-    return {
-      size:48, 
-      className:'bgDDD color323130',
-      row:[
-        {flex:1,html:'جزئیات سفارش',align:'v',className:'padding-0-24 size20'},
-        {size:48,html:<Icon path={mdiClose} size={0.8}/>,align:'vh',attrs:{onClick:()=>onClose()}}
-      ]
-    }
-  }
   tarikhcheTaghireVaziat_table(){
     let {history} = this.state;
+    if(!history){return 'loading'}
+    if(!history.length){return 'empty'}
     return (
       <Table
         model={history}
@@ -150,42 +116,19 @@ class JoziateSefaresheBazargah extends Component{
       />
     )
   }
-  tab0_layout(){
-    let {activeTabId,order} = this.state;
-    if(activeTabId !== '0'){return false}
-    return {flex:1,html:<OrderForm order={order}/>}
-  }
-  tab1_layout(){
-    let {activeTabId,history} = this.state;
-    if(activeTabId !== '1'){return false}
-    if(!history){return {flex:1,html:'در حال بارگزاری',align:'vh'}}
-    if(!history.length){return {flex:1,html:'موردی موجود نیست',align:'vh'}}
-    return {flex:1,html:this.tarikhcheTaghireVaziat_table()}
-  }
-  body_layout(){
-    let {tabs,activeTabId} = this.state;
-    return {
-      flex:1,
-      column:[
-        {html:(<AIOButton type='tabs' options={tabs} value={activeTabId} onChange={(activeTabId)=>this.setState({activeTabId})}/>)},
-        this.tab0_layout(),
-        this.tab1_layout(),
-      ]
-    }
+  getContent(tabIndex){
+    if(tabIndex === 0){return <OrderForm order={this.props.order}/>}
+    if(tabIndex === 0){return this.tarikhcheTaghireVaziat_table()}
   }
   render(){
+    let {onClose} = this.props;
     return (  
-      <div className='popup full-screen'>
-        <RVD
-          layout={{
-            className:'form',style:{flex:'none'},
-            column:[
-              this.header_layout(),
-              this.body_layout()
-            ]
-          }}
-        />  
-      </div>
+      <Popup 
+        title='جزئیات سفارش'
+        onClose={onClose}
+        tabs={['اطلاعات سفارش','تاریخچه تغییر وضعیت']}
+        getContent={(tabIndex)=>this.getContent(tabIndex)}
+      />
     )
   }
 }
