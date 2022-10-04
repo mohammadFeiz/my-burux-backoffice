@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import RVD from 'react-virtual-dom';
 import Table from './../../components/table/table';
 import AIOButton from 'aio-button';
-import PageHeader from './../../components/page-header/page-header';
 import UserForm from './../../components/user-form/user-form';
 import {Icon} from '@mdi/react';
 import {mdiDotsHorizontal} from '@mdi/js';
@@ -16,16 +15,11 @@ export default class Karbaran extends Component{
       showDetail:false
     }
   }
-  header_layout(){
-    return {html:<PageHeader title='کاربران'/>}
-  }
-  body_layout(){
+  table(){
     let {activityStatuses,users} = this.context;
-    if(!users){return {html:'در حال بارگزاری'}}
-    if(!users.length){return {html:'موردی موجود نیست'}}
-    return {
-      flex:1,
-      html:(
+    if(!users){return 'در حال بارگزاری'}
+    if(!users.length){return 'موردی موجود نیست'}
+    return (
         <Table
           editGroupName={(name)=>{return activityStatuses[name]}}
           model={users}
@@ -53,7 +47,6 @@ export default class Karbaran extends Component{
           ]}
         />
       )
-    }
   }
   render(){
     let {showDetail} = this.state;
@@ -61,8 +54,8 @@ export default class Karbaran extends Component{
       <>
         <RVD
           layout={{
-            style:{flex:'none'},className:'page',
-            column:[this.header_layout(),this.body_layout()]
+            className:'page',
+            html:this.table()
           }}
         />
         {showDetail && <JoziateKarbar model={showDetail} onClose={()=>this.setState({showDetail:false})}/>}

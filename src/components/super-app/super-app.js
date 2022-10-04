@@ -1,4 +1,6 @@
 import React,{Component} from 'react';
+import {Icon} from '@mdi/react';
+import {mdiAccount} from '@mdi/js';
 import RVD from 'react-virtual-dom';
 import './index.css';
 export default class SuperApp extends Component {
@@ -20,9 +22,20 @@ export default class SuperApp extends Component {
       };
     }
     page_layout(){
-      let {activeSideIndex} = this.state;
-      let {getContent} = this.props;
-      return {flex:1,html:getContent(activeSideIndex)} 
+        let {activeSideIndex} = this.state;
+        let {getContent} = this.props;
+        return {
+            flex:1,
+            column:[
+                this.header_layout(),
+                {flex:1,html:getContent(activeSideIndex)}
+            ]
+        } 
+    }
+    header_layout(){
+        let {sideMenuItems,userName} = this.props;
+        let {activeSideIndex} = this.state;
+        return {html:<PageHeader title={sideMenuItems[activeSideIndex].text} userName={userName}/>}
     }
     render() {
       return (
@@ -129,4 +142,26 @@ export default class SuperApp extends Component {
         else{index++}
     }
     return res
+  }
+
+  class PageHeader extends Component{
+    render(){
+      let {title,userName} = this.props;
+      return (
+        <RVD
+          layout={{
+            style:{height:72,flex:'none',width:'100%',background:'#fff'},
+            align:'v',
+            className:'padding-0-24',
+            row:[
+              {html:title,className:'size20 color323130 bold'},
+              {flex:1},
+              {html:<Icon path={mdiAccount} size={1}/>},
+              {size:6},
+              {html:userName,className:'size16 color605E5C'}
+            ]
+          }}
+        />
+      )
+    }
   }

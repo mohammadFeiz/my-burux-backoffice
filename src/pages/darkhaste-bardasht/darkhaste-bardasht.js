@@ -6,7 +6,6 @@ import AppContext from './../../app-context';
 import {splitNumber} from './../../components/super-app/super-app';
 import RVD from 'react-virtual-dom';
 import AIOForm from './../../components/form/index';
-import PageHeader from './../../components/page-header/page-header';
 import UserForm from './../../components/user-form/user-form';
 import {Icon} from '@mdi/react';
 import {mdiDotsHorizontal,mdiClose} from '@mdi/js';
@@ -29,62 +28,62 @@ export default class DarkhasteBardasht extends Component{
     }
     this.setState({items:items.map((o)=>{return {...o,...usersDic[o.userId]}})})
   }
-  header_layout(){
-    return {html:<PageHeader title='درخواست برداشت'/>}
-  }
-  body_layout(){
+  table(){
     let {items} = this.state;
     let {darkhasteBardashtStatuses} = this.context;
-    if(!items){return {flex:1,html:'در حال بارگزاری',align:'vh'}}
-    if(!items.length){return {flex:1,html:'موردی موجود نیست',align:'vh'}}
+    if(!items){return 'در حال بارگزاری'}
+    if(!items.length){return 'موردی موجود نیست'}
     let valueOptions = [{text:'همه'}];
     for(let prop in darkhasteBardashtStatuses){
       valueOptions.push({text:darkhasteBardashtStatuses[prop],value:prop})
     }
-    return {
-      flex:1,
-      html:(
-        <Table
-          editGroupName={(name)=>{return darkhasteBardashtStatuses[name]}}
-          model={items}
-          templates={{
-            'options':(row)=>{
-              return (
-                <AIOButton
-                  type='button' onClick={()=>this.setState({showDetail:row})}
-                  style={{background:'none',width:16,height:16,background:'dodgerblue',borderRadius:'100%',color:'#fff'}}
-                  text={<Icon path={mdiDotsHorizontal} size={0.6}/>}
-                />
-              )
-            },
-            'status':(row)=>this.context.darkhasteBardashtStatuses[row.darkhasteBardashtStatus],
-            'amount':(row)=>splitNumber(row.amount) + ' ریال'
-          }}
-          columns={[
-            {title:'نام',field:'row.firstname',search:true,minWidth:110},
-            {title:'نام خانوادگی',field:'row.lastname',search:true,width:110},
-            {title:'کد مشتری',field:'row.code',search:true,width:80},
-            {title:'شماره تلفن',field:'row.mobile',search:true,width:110},
-            {title:'مبلغ',field:'row.amount',search:true,width:120,template:'amount'},
-            {title:'تعداد درخواست های فعال',field:'row.requestCount',search:true,width:160},
-            {title:'تاریخ درخواست',field:'row.requestDate',search:true,width:120},
-            {
-              type:'text',title:'وضعیت',field:'row.darkhasteBardashtStatus',search:true,group:true,width:120,
-              template:'status',
-              editFilter:false,
-              filter:{add:false,items:[{operator:'equal'}],operators:['equal'],valueOptions}
-            },
-            {title:'',justify:true,width:80,template:'options'}
-          ]}
-        />
-      )
-    }
+    return (
+      <Table
+        editGroupName={(name)=>{return darkhasteBardashtStatuses[name]}}
+        model={items}
+        templates={{
+          'options':(row)=>{
+            return (
+              <AIOButton
+                type='button' onClick={()=>this.setState({showDetail:row})}
+                style={{background:'none',width:16,height:16,background:'dodgerblue',borderRadius:'100%',color:'#fff'}}
+                text={<Icon path={mdiDotsHorizontal} size={0.6}/>}
+              />
+            )
+          },
+          'status':(row)=>this.context.darkhasteBardashtStatuses[row.darkhasteBardashtStatus],
+          'amount':(row)=>splitNumber(row.amount) + ' ریال'
+        }}
+        columns={[
+          {title:'نام',field:'row.firstname',search:true,minWidth:110},
+          {title:'نام خانوادگی',field:'row.lastname',search:true,width:110},
+          {title:'کد مشتری',field:'row.code',search:true,width:80},
+          {title:'شماره تلفن',field:'row.mobile',search:true,width:110},
+          {title:'مبلغ',field:'row.amount',search:true,width:120,template:'amount'},
+          {title:'تعداد درخواست های فعال',field:'row.requestCount',search:true,width:160},
+          {title:'تاریخ درخواست',field:'row.requestDate',search:true,width:120},
+          {
+            type:'text',title:'وضعیت',field:'row.darkhasteBardashtStatus',search:true,group:true,width:120,
+            template:'status',
+            editFilter:false,
+            filter:{add:false,items:[{operator:'equal'}],operators:['equal'],valueOptions}
+          },
+          {title:'',justify:true,width:80,template:'options'}
+        ]}
+      />
+    )
+    
   }
   render(){
     let {showDetail} = this.state;
     return (
       <>
-        <RVD layout={{style:{flex:'none'},className:'page',column:[this.header_layout(),this.body_layout()]}}/>
+        <RVD 
+          layout={{
+            className:'page',
+            html:this.table()
+          }}
+        />
         {showDetail && <JoziateDarkhasteBardasht model={showDetail} onClose={()=>this.setState({showDetail:false})}/>}
       </>
     )

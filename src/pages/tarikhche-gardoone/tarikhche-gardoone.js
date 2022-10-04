@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import AIOButton from 'aio-button'; 
 import AppContext from './../../app-context';
 import RVD from 'react-virtual-dom';
-import PageHeader from './../../components/page-header/page-header';
 import UserForm from './../../components/user-form/user-form';
 import {Icon} from '@mdi/react';
 import {mdiDotsHorizontal} from '@mdi/js';
@@ -38,62 +37,56 @@ export default class TarikhcheGardoone extends Component{
       return {...o,...usersDic[o.userId]}
     })})
   }
-  header_layout(){
-    return {html:<PageHeader title='تاریخچه گردونه'/>} 
-  }
-  body_layout(){
+  table(){
     let {items} = this.state;
-    if(!items){return {flex:1,html:'در حال بارگزاری',align:'vh'}}
-    if(!items.length){return {flex:1,html:'موردی موجود نیست',align:'vh'}}
+    if(!items){return 'در حال بارگزاری'}
+    if(!items.length){return 'موردی موجود نیست'}
     let valueOptions = [{text:'همه'},{text:'فعال',value:true},{text:'غیر فعال',value:false}];
     
-    return {
-      flex:1,
-      html:(
-        <Table
-          editGroupName={(name)=>{
-            if(name === 'true'){return 'فعال'}
-            if(name === 'false'){return 'غیر فعال'}
-          }}
-          model={items}
-          templates={{
-            'options':(row)=>{
-              return (
-                <AIOButton
-                  type='button'
-                  onClick={()=>this.setState({showDetail:row})}
-                  style={{background:'none',width:16,height:16,background:'dodgerblue',borderRadius:'100%',color:'#fff'}}
-                  text={<Icon path={mdiDotsHorizontal} size={0.6}/>}
-                />
-              )
-            },
-            'status':(row)=>{
-              return (
-                <button 
-                  style={{fontFamily:'inherit',background:row.gardooneStatus?'#00800073':'#ff000080',color:'#fff',border:'none',width:60,height:24,borderRadius:4,fontSize:12}}
-                  onClick={()=>this.changeActivity(row)}
-                >{row.gardooneStatus?'فعال':'غیر فعال'}</button>
-              )
-            },
-          }}
-          columns={[
-            {title:'نام',field:'row.firstname',search:true,width:160,titleJustify:false},
-            {title:'نام خانوادگی',field:'row.lastname',search:true,width:160,titleJustify:false},
-            {title:'کد مشتری',field:'row.code',search:true,width:80},
-            {title:'شماره تلفن',field:'row.mobile',search:true,width:110},
-            {title:'دفعات شرکت در گردونه',field:'row.tryCount',width:160,justify:true},
-            {title:'دفعات برنده شده',field:'row.winCount',width:120,justify:true},
-            {
-              type:'text',title:'وضعیت گردونه',field:'row.gardooneStatus',width:140,justify:true,
-              template:'status',
-              filter:{add:false,items:[{operator:'equal'}],operators:['equal'],valueOptions}
-            },
-            {title:'',justify:true,width:80,template:'options'},
-            {title:''}
-          ]}
-        />
-      )
-    }
+    return (
+      <Table
+        editGroupName={(name)=>{
+          if(name === 'true'){return 'فعال'}
+          if(name === 'false'){return 'غیر فعال'}
+        }}
+        model={items}
+        templates={{
+          'options':(row)=>{
+            return (
+              <AIOButton
+                type='button'
+                onClick={()=>this.setState({showDetail:row})}
+                style={{background:'none',width:16,height:16,background:'dodgerblue',borderRadius:'100%',color:'#fff'}}
+                text={<Icon path={mdiDotsHorizontal} size={0.6}/>}
+              />
+            )
+          },
+          'status':(row)=>{
+            return (
+              <button 
+                style={{fontFamily:'inherit',background:row.gardooneStatus?'#00800073':'#ff000080',color:'#fff',border:'none',width:60,height:24,borderRadius:4,fontSize:12}}
+                onClick={()=>this.changeActivity(row)}
+              >{row.gardooneStatus?'فعال':'غیر فعال'}</button>
+            )
+          },
+        }}
+        columns={[
+          {title:'نام',field:'row.firstname',search:true,width:160,titleJustify:false},
+          {title:'نام خانوادگی',field:'row.lastname',search:true,width:160,titleJustify:false},
+          {title:'کد مشتری',field:'row.code',search:true,width:80},
+          {title:'شماره تلفن',field:'row.mobile',search:true,width:110},
+          {title:'دفعات شرکت در گردونه',field:'row.tryCount',width:160,justify:true},
+          {title:'دفعات برنده شده',field:'row.winCount',width:120,justify:true},
+          {
+            type:'text',title:'وضعیت گردونه',field:'row.gardooneStatus',width:140,justify:true,
+            template:'status',
+            filter:{add:false,items:[{operator:'equal'}],operators:['equal'],valueOptions}
+          },
+          {title:'',justify:true,width:80,template:'options'},
+          {title:''}
+        ]}
+      />
+    )
   }
   render(){
     let {showDetail} = this.state;
@@ -101,8 +94,8 @@ export default class TarikhcheGardoone extends Component{
       <>
         <RVD
           layout={{
-            style:{flex:'none'},className:'page',
-            column:[this.header_layout(),this.body_layout()]
+            className:'page',
+            html:this.table()
           }}
         />
         {

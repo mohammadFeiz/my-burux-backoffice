@@ -44,9 +44,11 @@ export default class App extends Component {
     }
   }
   render() {
+    let {user} = this.state;
     return (
       <AppContext.Provider value={this.getContext()}>
         <SuperApp
+          userName={user.name}
           classNames={{
             sideMenuTitle:'colorFFF bold size20',
             sideMenuSubtitle:'colorFFF size14',
