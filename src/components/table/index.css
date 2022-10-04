@@ -11,6 +11,7 @@
   top:0;
   z-index:10;
   overflow:visible;
+  font-weight:bold;
   user-select:none;
   background:#ddd;
   box-shadow:0 3px 6px 0px rgba(80,80,80,0.2)
@@ -137,6 +138,7 @@
     padding:0 3px;
     width:100%;
     outline:none;
+    font-family:inherit;
   }
   .table-filter-remove{
     border:1px solid #ddd;
@@ -148,6 +150,7 @@
     border:none;
     background:none;
     outline:none;
+    font-family:inherit;
     min-height:16px;
     
   }

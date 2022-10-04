@@ -6,7 +6,7 @@ import PageHeader from './../../components/page-header/page-header';
 import UserForm from './../../components/user-form/user-form';
 import {Icon} from '@mdi/react';
 import {mdiDotsHorizontal,mdiClose} from '@mdi/js';
-import Table from './../../components/table/index';
+import Table from './../../components/table/table';
 export default class TarikhcheGardoone extends Component{
   static contextType = AppContext;
   constructor(props){
@@ -41,12 +41,11 @@ export default class TarikhcheGardoone extends Component{
       flex:1,
       html:(
         <Table
-          rtl={true}
           editGroupName={(name)=>{
             if(name === 'true'){return 'فعال'}
             if(name === 'false'){return 'غیر فعال'}
           }}
-          rowHeight={48} headerHeight={30} striped={true} model={items}
+          model={items}
           templates={{
             'options':(row)=>{
               return (
@@ -60,23 +59,24 @@ export default class TarikhcheGardoone extends Component{
             },
             'status':(row)=>{
               return (
-                <button style={{background:row.gardooneStatus?'green':'red',color:'#fff',border:'none',width:60,height:30,borderRadius:4}}>{row.gardooneStatus?'فعال':'غیر فعال'}</button>
+                <button style={{fontFamily:'inherit',background:row.gardooneStatus?'#00800073':'#ff000080',color:'#fff',border:'none',width:60,height:24,borderRadius:4,fontSize:12}}>{row.gardooneStatus?'فعال':'غیر فعال'}</button>
               )
             },
           }}
           columns={[
-            {title:'نام',field:'row.firstname',search:true,minWidth:110},
-            {title:'نام خانوادگی',field:'row.lastname',search:true,width:110},
+            {title:'نام',field:'row.firstname',search:true,width:160,titleJustify:false},
+            {title:'نام خانوادگی',field:'row.lastname',search:true,width:160,titleJustify:false},
             {title:'کد مشتری',field:'row.code',search:true,width:80},
             {title:'شماره تلفن',field:'row.mobile',search:true,width:110},
-            {title:'دفعات شرکت در گردونه',field:'row.tryCount',width:160},
-            {title:'دفعات برنده شده',field:'row.winCount',search:true,width:120},
+            {title:'دفعات شرکت در گردونه',field:'row.tryCount',width:160,justify:true},
+            {title:'دفعات برنده شده',field:'row.winCount',width:120,justify:true},
             {
-              type:'text',title:'وضعیت گردونه',field:'row.gardooneStatus',group:true,width:140,justify:true,
+              type:'text',title:'وضعیت گردونه',field:'row.gardooneStatus',width:140,justify:true,
               template:'status',
               filter:{add:false,items:[{operator:'equal'}],operators:['equal'],valueOptions}
             },
-            {title:'',justify:true,width:80,template:'options'}
+            {title:'',justify:true,width:80,template:'options'},
+            {title:''}
           ]}
         />
       )
@@ -154,10 +154,10 @@ class JoziateGardoone extends Component{
     let {history} = this.state;
     return (
       <Table
-        rowHeight={30} headerHeight={30} striped={true} model={history}
+        model={history}
         columns={[
-          {title:'تاریخ',field:'row.date'},
-          {title:'جایزه',field:'row.award'}
+          {title:'تاریخ',field:'row.date',titleJustify:false},
+          {title:'جایزه',field:'row.award',titleJustify:false}
         ]}
       />
     )

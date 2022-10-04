@@ -9,7 +9,7 @@ import PageHeader from './../../components/page-header/page-header';
 import UserForm from './../../components/user-form/user-form';
 import {Icon} from '@mdi/react';
 import {mdiDotsHorizontal,mdiClose} from '@mdi/js';
-import Table from './../../components/table/index';
+import Table from './../../components/table/table';
 import services from '../../services';
 export default class DarkhasteBardasht extends Component{
   static contextType = AppContext;
@@ -49,11 +49,7 @@ export default class DarkhasteBardasht extends Component{
       flex:1,
       html:(
         <Table
-          rtl={true}
           editGroupName={(name)=>{return darkhasteBardashtStatuses[name]}}
-          rowHeight={48}
-          headerHeight={30}
-          striped={true}
           model={items}
           templates={{
             'options':(row)=>{
@@ -188,9 +184,6 @@ class JoziateDarkhasteBardasht extends Component{
     let {darkhasteBardashtStatuses} = this.context;
     return (
       <Table
-        rowHeight={30}
-        headerHeight={30}
-        striped={true}
         model={history}
         templates={{
           'amount':(row)=>this.context.splitNumber(row.amount) + ' ریال',

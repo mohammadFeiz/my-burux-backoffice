@@ -11,11 +11,11 @@ export default class PageHeader extends Component{
     return (
       <RVD
         layout={{
-          style:{height:72,flex:'none',width:'100%'},
+          style:{height:72,flex:'none',width:'100%',background:'#fff'},
           align:'v',
           className:'padding-0-24',
           row:[
-            {html:title,className:'size28 color323130 bold'},
+            {html:title,className:'size20 color323130 bold'},
             {flex:1},
             {html:getSvg('profile')},
             {size:6},

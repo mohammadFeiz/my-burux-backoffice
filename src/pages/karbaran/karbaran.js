@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import RVD from 'react-virtual-dom';
-import Table from './../../components/table/index';
+import Table from './../../components/table/table';
 import AIOButton from 'aio-button';
 import PageHeader from './../../components/page-header/page-header';
 import UserForm from './../../components/user-form/user-form';
@@ -27,9 +27,6 @@ export default class Karbaran extends Component{
       html:(
         <Table
           editGroupName={(name)=>{return activityStatuses[name]}}
-          rowHeight={30}
-          headerHeight={30}
-          striped={true}
           model={users}
           templates={{
             'status':(row)=>activityStatuses[row.activityStatus],
@@ -50,7 +47,7 @@ export default class Karbaran extends Component{
             {title:'شماره تلفن',field:'row.mobile',search:true,width:110},
             {title:'استان',field:'row.state',search:true,width:80},
             {title:'شهر',field:'row.city',search:true,width:80},
-            {title:'وضعیت',field:'row.activityStatus',search:true,group:true,width:80,template:'status'},
+            {title:'وضعیت',field:'row.activityStatus',search:true,group:true,width:110,template:'status'},
             {title:'',justify:true,width:80,template:'options'}
           ]}
         />

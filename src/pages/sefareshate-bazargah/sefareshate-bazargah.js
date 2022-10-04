@@ -6,7 +6,7 @@ import PageHeader from './../../components/page-header/page-header';
 import OrderForm from './../../components/order-form/order-form';
 import {Icon} from '@mdi/react';
 import {mdiDotsHorizontal,mdiClose} from '@mdi/js';
-import Table from './../../components/table/index';
+import Table from './../../components/table/table';
 export default class SefareshateBazargah extends Component{
   static contextType = AppContext;
   constructor(props){
@@ -34,9 +34,8 @@ export default class SefareshateBazargah extends Component{
       flex:1,
       html:(
         <Table
-          rtl={true}
           editGroupName={(name)=>bazargahStatuses[name]}
-          rowHeight={30} headerHeight={30} striped={true} model={items}
+          model={items}
           templates={{
             'options':(row)=>{
               return (
@@ -48,19 +47,20 @@ export default class SefareshateBazargah extends Component{
                 />
               )
             },
+            'amount':(row)=>this.context.splitNumber(row.orderAmount) + ' ریال',
             'status':(row)=>bazargahStatuses[row.orderStatus]
           }}
           columns={[
-            {title:'شماره سفارش',field:'row.orderNumber',search:true,minWidth:110},
-            {title:'تاریخ سفارش',field:'row.orderDate',search:true,width:110},
-            {title:'نام',field:'row.firstname',search:true,width:80},
-            {title:'نام خانوادگی',field:'row.lastname',search:true,width:110},
-            {title:'استان',field:'row.state',width:160},
-            {title:'شهر',field:'row.city',search:true,width:120},
-            {title:'شماره تلفن',field:'row.mobile',search:true,width:120},
-            {title:'مبلغ سفارش',field:'row.orderAmount',width:120},
+            {title:'شماره سفارش',field:'row.orderNumber',search:true,minWidth:110,titleJustify:false,toggle:true},
+            {title:'تاریخ سفارش',type:'date',field:'row.orderDate',search:true,width:110,titleJustify:false,toggle:true,sort:true},
+            {title:'نام',field:'row.firstname',search:true,width:80,titleJustify:false,toggle:true},
+            {title:'نام خانوادگی',field:'row.lastname',search:true,width:110,titleJustify:false,toggle:true},
+            {title:'استان',field:'row.state',width:160,search:true,justify:true,toggle:true,sort:true},
+            {title:'شهر',field:'row.city',search:true,width:120,justify:true,toggle:true,sort:true},
+            {title:'شماره تلفن',field:'row.mobile',search:true,width:120,toggle:true},
+            {title:'مبلغ سفارش',field:'row.orderAmount',width:120,titleJustify:false,toggle:true,sort:true,template:'amount'},
             {
-              type:'text',title:'وضعیت گردونه',field:'row.orderStatus',group:true,width:140,justify:true,
+              type:'text',title:'وضعیت گردونه',field:'row.orderStatus',width:140,titleJustify:false,toggle:true,
               template:'status',
               filter:{add:false,items:[{operator:'equal'}],operators:['equal'],valueOptions}
             },
@@ -141,7 +141,7 @@ class JoziateSefaresheBazargah extends Component{
     let {history} = this.state;
     return (
       <Table
-        rowHeight={30} headerHeight={30} striped={true} model={history}
+        model={history}
         columns={[
           {title:'تاریخ',field:'row.date'},
           {title:'جایزه',field:'row.description'}

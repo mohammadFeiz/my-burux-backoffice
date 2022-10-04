@@ -523,7 +523,7 @@ class TableUnit extends Component{
       html:(
         <AIOButton
           style={{background:'none',color:'inherit'}}
-          type='button' rtl={rtl} caret={false} text={<Icon path={items.length?mdiFilterMenu:mdiFilter} size={0.8}/>}
+          type='button' rtl={rtl} caret={false} text={<Icon path={items.length?mdiFilterMenu:mdiFilter} size={0.6}/>}
           popOver={()=>{
             let {columns} = this.props;
             return (

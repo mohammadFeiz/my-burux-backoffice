@@ -88,7 +88,7 @@ export default class App extends Component {
       <AppContext.Provider value={this.getContext()}>
         <RVD
           layout={{
-            className: 'full-screen',
+            className: 'full-screen round-page',
             row: [
               this.side_layout(),
               this.page_layout()
@@ -147,7 +147,7 @@ class Side extends Component {
           size:36,className,attrs:{onClick:()=>SetState({sideActiveIndex:i})},
           row:[
             {size:48,html:getSvg(icon,{fill:active?'#005478':'#fff'}),align:'vh'},
-            {html:text,align:'v',className:'size20 bold'}
+            {html:text,align:'v',className:'size16'}
           ]
         }
       })
