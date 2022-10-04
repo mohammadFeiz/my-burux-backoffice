@@ -7,12 +7,22 @@ import UserForm from './../../components/user-form/user-form';
 import {Icon} from '@mdi/react';
 import {mdiDotsHorizontal,mdiClose} from '@mdi/js';
 import Table from './../../components/table/table';
+import services from '../../services';
 export default class TarikhcheGardoone extends Component{
   static contextType = AppContext;
   constructor(props){
     super(props);
     this.state = {
       showDetail:false
+    }
+  }
+  async changeActivity(item){
+    let {services} = this.context;
+    let {items} = this.state;
+    let res = await services({type:'taghyire_faaliate_gardoone',parameter:{state:!item.gardooneStatus,userId:item.userId}})
+    if(res){
+      item.gardooneStatus = !item.gardooneStatus;
+      this.setState({items})
     }
   }
   async componentDidMount(){
@@ -59,7 +69,10 @@ export default class TarikhcheGardoone extends Component{
             },
             'status':(row)=>{
               return (
-                <button style={{fontFamily:'inherit',background:row.gardooneStatus?'#00800073':'#ff000080',color:'#fff',border:'none',width:60,height:24,borderRadius:4,fontSize:12}}>{row.gardooneStatus?'فعال':'غیر فعال'}</button>
+                <button 
+                  style={{fontFamily:'inherit',background:row.gardooneStatus?'#00800073':'#ff000080',color:'#fff',border:'none',width:60,height:24,borderRadius:4,fontSize:12}}
+                  onClick={()=>this.changeActivity(row)}
+                >{row.gardooneStatus?'فعال':'غیر فعال'}</button>
               )
             },
           }}
@@ -186,9 +199,7 @@ class JoziateGardoone extends Component{
       ]
     }
   }
-  changeActivity(){
-
-  }
+  
   render(){
     return (  
       <div className='popup full-screen'>

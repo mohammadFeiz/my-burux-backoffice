@@ -6,6 +6,7 @@ import Karbaran from './pages/karbaran/karbaran';
 import DarkhasteBardasht from './pages/darkhaste-bardasht/darkhaste-bardasht';
 import TarikhcheGardoone from './pages/tarikhche-gardoone/tarikhche-gardoone';
 import SefareshateBazargah from './pages/sefareshate-bazargah/sefareshate-bazargah';
+import Loading from './components/loading/loading';
 import Services from './services';
 import './style.css';
 export default class App extends Component {
@@ -95,6 +96,7 @@ export default class App extends Component {
             ],
           }}
         />
+        <Loading />
       </AppContext.Provider>
     );
   }

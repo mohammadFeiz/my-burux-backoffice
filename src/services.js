@@ -105,6 +105,10 @@ export default function services(getState,token,userCardCode) {
             {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'},
             {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'}
           ]
+      },
+      async taghyire_faaliate_gardoone({parameter}){
+        let {state,userId} = parameter;
+        return true
       }
     }
   }

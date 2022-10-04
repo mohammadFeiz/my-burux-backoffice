@@ -36,6 +36,7 @@ export default class SefareshateBazargah extends Component{
         <Table
           editGroupName={(name)=>bazargahStatuses[name]}
           model={items}
+          setModel={(items)=>this.setState({items})}
           templates={{
             'options':(row)=>{
               return (
