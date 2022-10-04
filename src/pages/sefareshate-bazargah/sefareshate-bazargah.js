@@ -89,7 +89,8 @@ class JoziateSefaresheBazargah extends Component{
   static contextType = AppContext;
   async componentDidMount(){
     let {services} = this.context;
-    let history = await services({type:'tarikhche_taghire_vaziate_bazargah'})
+    let {order} = this.props;
+    let history = await services({type:'tarikhche_taghire_vaziate_bazargah',parameter:{order}})
     this.setState({history})
   }
   tarikhcheTaghireVaziat_table(){

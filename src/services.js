@@ -90,7 +90,8 @@ export default function services(getState,token,userCardCode) {
             {orderNumber:'4324',orderDate:'1400/3/3',firstname:'محمد',lastname:'فیض',state:'تهران',city:'تهران',mobile:'09123534314',orderAmount:12345678,orderStatus:'3',"latitude": 35.699739,"longitude": 51.338097}
           ]
       },
-      async tarikhche_taghire_vaziate_bazargah(){
+      async tarikhche_taghire_vaziate_bazargah({parameter}){
+        let {order} = parameter;
         return [
             {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'},
             {date:'1401/4/5 12:20',description:'سفارش توسط کاربر ثبت شد'},
