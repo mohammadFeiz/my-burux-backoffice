@@ -32,7 +32,7 @@
   opacity:0.5;
 }
 .row{
-  box-shadow:0 3px 6px 0px rgba(80,80,80,0.2)
+  box-shadow:0 3px 6px 0px rgba(80,80,80,0.2);
 }
 .cell{
   height:48px;
@@ -111,6 +111,7 @@
   }
   .table-group-row{
     height:48px;
+    width:fit-content;
     
   }
   .table-filter-popup{

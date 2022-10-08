@@ -6,7 +6,7 @@ import UserForm from './../../components/user-form/user-form';
 import {Icon} from '@mdi/react';
 import {mdiDotsHorizontal} from '@mdi/js';
 import Table from './../../components/table/table';
-import Popup from '../../components/popup/popup';
+import {Popup} from 'react-super-app';
 export default class TarikhcheGardoone extends Component{
   static contextType = AppContext;
   constructor(props){

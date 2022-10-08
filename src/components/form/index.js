@@ -32,7 +32,6 @@ export default class AIOForm extends Component {
     return a === undefined && def !== undefined?def:a; 
   }
   setValueByField(obj,field,value){
-    //debugger;
     field = field.replaceAll('[','.');
     field = field.replaceAll(']','');
     var fields = field.split('.');
@@ -274,7 +273,7 @@ export default class AIOForm extends Component {
           this.getLabelLayout(label,theme,input),
           {size:6,show: label !== undefined},
           {
-            flex:1,
+            flex:1,style:{overflow:'visible'},
             column:[
               {
                 row:[
@@ -358,7 +357,7 @@ export default class AIOForm extends Component {
     return this.sortByRows(this.handleGroups(inputs)).map((input,i)=>{
       return {
         swapId:onSwap?input._index.toString():undefined,
-        style:rowStyle,
+        style:{...rowStyle,overflow:'visible'},
         className:'aio-form-row',
         swapHandleClassName:'aio-form-label',
         row:input.map((o)=>{
@@ -368,8 +367,8 @@ export default class AIOForm extends Component {
     })
   }
   getError(o,value,options){
+    let {lang = 'en'} = this.props;
     let {validations = []} = o
-    let lang = 'en';
     if(!validations.length){return ''}
     let a = { 
       value,title:o.label,lang,
@@ -389,9 +388,49 @@ export default class AIOForm extends Component {
       await onChange(JSON.parse(initialModel))
     }
   }
+  header_layout(){
+    let {header,rtl} = this.props;
+    if(!header){return false}
+    return {html:<AIOFormHeader {...header} rtl={rtl} theme={theme} getValue={this.getValue.bind(this)}/>}
+  }
+  body_layout(show = true){
+    if(!show){return false}
+    let {inputs = [],bodyStyle,layout} = this.props;
+    return {className: 'aio-form-body',style:bodyStyle,scroll: 'v',flex: 1,column:()=>this.getInputs(inputs)}
+  }
+  body_and_tabs_layout(){
+    let {tabs = [],tabSize = 36} = this.props;
+    if(!tabs.length){return false}
+    return {
+      style:theme.body,flex: 1,show:tabs.length !== 0,
+      row:[
+        {
+          className:'aio-form-tabs',size:tabSize,
+          column:tabs.map((o)=>{
+            return {className:'aio-form-tab active',size:tabSize,html:o.html,align:'vh',style:{}}
+          })
+        },
+        this.body_layout(true)
+    ]}
+  }
+  footer_layout(){
+    let {onSubmit,submitText = 'Submit',closeText = 'Close',resetText = 'Reset',onClose,footerAttrs,reset} = this.props;
+    if(!onSubmit && !reset && !onClose){return false}
+    return {
+      html:()=>(
+        <AIOFormFooter 
+          isThereError={this.isThereError}
+          onClose={onClose} 
+          onSubmit={onSubmit?()=>onSubmit({...this.state.model}):undefined} 
+          closeText={closeText} submitText={submitText} resetText={resetText}
+          footerAttrs={footerAttrs} 
+          onReset={reset?()=>this.reset():undefined}
+        />
+      )
+    }
+  }
   render() {
-    let {inputs = [],header,rtl,onSubmit,submitText = 'Submit',closeText = 'Close',resetText = 'Reset',onClose,footerAttrs,reset,tabs = [],tabSize = 36,style,className,bodyStyle} = this.props;
-    let {theme} = this.state;
+    let {tabs = [],style,className} = this.props;
     this.isThereError = false;
     return (
       <ReactVirtualDom
@@ -399,28 +438,10 @@ export default class AIOForm extends Component {
           className: 'aio-form' + (className?' ' + className:''),
           style,
           column: [
-            {show: header !== undefined,html:<AIOFormHeader {...header} rtl={rtl} theme={theme} getValue={this.getValue.bind(this)}/>},
-            {className: 'aio-form-body',style:bodyStyle,scroll: 'v',flex: 1,column:()=>this.getInputs(inputs),show:tabs.length === 0},
-            {style:theme.body,flex: 1,show:tabs.length !== 0,row:[
-              {className:'aio-form-tabs',size:tabSize,column:tabs.map((o)=>{
-                return {className:'aio-form-tab active',size:tabSize,html:o.html,align:'vh',style:{}}
-              })},
-              {className: 'aio-form-body',flex:1,scroll:'v',column:()=>this.getInputs(inputs)}
-            ]},
-            {
-              show: onSubmit !== undefined || reset === true || onClose !== undefined,
-              html:()=>(
-                <AIOFormFooter 
-                  isThereError={this.isThereError}
-                  theme={theme}
-                  onClose={onClose} 
-                  onSubmit={onSubmit?()=>onSubmit({...this.state.model}):undefined} 
-                  closeText={closeText} submitText={submitText} resetText={resetText}
-                  footerAttrs={footerAttrs} 
-                  onReset={reset?()=>this.reset():undefined}
-                />
-              )
-            },
+            this.header_layout(),
+            this.body_layout(tabs.length === 0),
+            this.body_and_tabs_layout(),
+            this.footer_layout()
           ],
         }}
       />
@@ -458,11 +479,11 @@ class AIOFormHeader extends Component {
 }
 class AIOFormFooter extends Component{
   render(){
-    let {onClose,onSubmit,closeText,submitText,footerAttrs = {},onReset,resetText,isThereError,theme = {}} = this.props;
+    let {onClose,onSubmit,closeText,submitText,footerAttrs = {},onReset,resetText,isThereError} = this.props;
     return (
       <ReactVirtualDom
         layout={{
-          align: 'v',className: 'aio-form-footer',style:theme.footer,
+          align: 'v',className: 'aio-form-footer' + (footerAttrs.className?' ' + footerAttrs.className:''),style:footerAttrs.style,
           row: [
             {
               show: onClose !== undefined,

@@ -3,14 +3,13 @@
 import React,{Component} from 'react';
 import AIOButton from 'aio-button'; 
 import AppContext from './../../app-context';
-import {splitNumber} from './../../components/super-app/super-app';
+import {splitNumber,Popup} from 'react-super-app';
 import RVD from 'react-virtual-dom';
 import AIOForm from './../../components/form/index';
 import UserForm from './../../components/user-form/user-form';
 import {Icon} from '@mdi/react';
-import {mdiDotsHorizontal,mdiClose} from '@mdi/js';
+import {mdiDotsHorizontal} from '@mdi/js';
 import Table from './../../components/table/table';
-import Popup from '../../components/popup/popup';
 export default class DarkhasteBardasht extends Component{
   static contextType = AppContext;
   constructor(props){

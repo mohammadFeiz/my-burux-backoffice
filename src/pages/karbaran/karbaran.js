@@ -5,7 +5,7 @@ import AIOButton from 'aio-button';
 import UserForm from './../../components/user-form/user-form';
 import {Icon} from '@mdi/react';
 import {mdiDotsHorizontal} from '@mdi/js';
-import Popup from '../../components/popup/popup';
+import {Popup} from 'react-super-app';
 import AppContext from './../../app-context';
 export default class Karbaran extends Component{
   static contextType = AppContext;
@@ -43,7 +43,7 @@ export default class Karbaran extends Component{
             {title:'استان',field:'row.state',search:true,width:80},
             {title:'شهر',field:'row.city',search:true,width:80},
             {title:'وضعیت',field:'row.activityStatus',search:true,group:true,width:110,template:'status'},
-            {title:'',justify:true,width:80,template:'options'}
+            {title:'',justify:true,width:80,template:'options'},
           ]}
         />
       )

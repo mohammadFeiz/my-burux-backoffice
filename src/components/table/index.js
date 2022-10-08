@@ -553,7 +553,7 @@ class TableUnit extends Component{
     let {groupHeight,rowHeight,indent,rtl,editGroupName = (o)=>o} = this.context;
     let {cellsType} = this.props;
     return {
-      style:{background:'#fff',position:'sticky',[rtl?'right':'left']:0,height:groupHeight || rowHeight},
+      style:{position:'sticky',[rtl?'right':'left']:0,height:groupHeight || rowHeight},
       className:TableCLS.groupRow,
       row:cellsType === 'unfreezeCells'?[{flex:1}]:[
         {size:12},
@@ -662,21 +662,8 @@ class TableUnit extends Component{
         })
       }
   }
-  setWidthes(){
-    clearTimeout(this.timeooo);
-    this.timeooo = setTimeout(()=>{
-      let container = $(this.rowsRef.current);
-      let width = container[0].scrollWidth;
-      let groupRow = container.find('.table-group-row');
-      //let headerRow = container.find('.table-header');
-      groupRow.css({width})
-      // headerRow.css({width})
-    },50)
-  }
-  async componentDidMount(){
-     this.setWidthes();
-     $(window).on('resize',$.proxy(this.setWidthes,this))
-  }
+  
+  
   rows_layout(){
     let {rows_array,striped} = this.context;
     let index = -1;

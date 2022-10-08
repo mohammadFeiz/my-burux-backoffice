@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import getSvg from './getSvg';
 import AppContext from './app-context';
-import SuperApp from './components/super-app/super-app';
+import SuperApp from 'react-super-app';
 import Karbaran from './pages/karbaran/karbaran';
 import DarkhasteBardasht from './pages/darkhaste-bardasht/darkhaste-bardasht';
 import TarikhcheGardoone from './pages/tarikhche-gardoone/tarikhche-gardoone';
 import SefareshateBazargah from './pages/sefareshate-bazargah/sefareshate-bazargah';
-import Services from './services';
+import AIOService from 'aio-service';
+import services from './services';
 import './style.css';
 export default class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      services:Services(()=>this.state),
+      services:AIOService({
+        getState:()=>this.state,
+        apis:services
+      }),
       activityStatuses:{'0':'در انتظار تایید','1':'تایید شده','2':'رد شده'},
       darkhasteBardashtStatuses:{'0':'در انتظار تایید','1':'در انتظار پرداخت','2':'پرداخت شده','3':'رد شده'},
       bazargahStatuses:{
@@ -49,11 +53,6 @@ export default class App extends Component {
       <AppContext.Provider value={this.getContext()}>
         <SuperApp
           userName={user.name}
-          classNames={{
-            sideMenuTitle:'colorFFF bold size20',
-            sideMenuSubtitle:'colorFFF size14',
-            sideMenuItem:'size16'
-          }}
           getContent={(sideIndex)=>{
             if(sideIndex === 0){return <Karbaran/>}
             if(sideIndex === 1){return <DarkhasteBardasht/>}

@@ -1,13 +1,12 @@
 import React,{Component} from 'react';
 import AIOButton from 'aio-button'; 
 import AppContext from './../../app-context';
-import {splitNumber} from './../../components/super-app/super-app';
+import {splitNumber,Popup} from 'react-super-app';
 import RVD from 'react-virtual-dom';
 import OrderForm from './../../components/order-form/order-form';
 import {Icon} from '@mdi/react';
 import {mdiDotsHorizontal} from '@mdi/js';
 import Table from './../../components/table/table';
-import Popup from '../../components/popup/popup';
 export default class SefareshateBazargah extends Component{
   static contextType = AppContext;
   constructor(props){
