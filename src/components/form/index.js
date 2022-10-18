@@ -391,7 +391,7 @@ export default class AIOForm extends Component {
   header_layout(){
     let {header,rtl} = this.props;
     if(!header){return false}
-    return {html:<AIOFormHeader {...header} rtl={rtl} theme={theme} getValue={this.getValue.bind(this)}/>}
+    return {html:<AIOFormHeader {...header} rtl={rtl} getValue={this.getValue.bind(this)}/>}
   }
   body_layout(show = true){
     if(!show){return false}
@@ -402,7 +402,7 @@ export default class AIOForm extends Component {
     let {tabs = [],tabSize = 36} = this.props;
     if(!tabs.length){return false}
     return {
-      style:theme.body,flex: 1,show:tabs.length !== 0,
+      flex: 1,show:tabs.length !== 0,
       row:[
         {
           className:'aio-form-tabs',size:tabSize,

@@ -8,8 +8,36 @@ import TarikhcheGardoone from './pages/tarikhche-gardoone/tarikhche-gardoone';
 import SefareshateBazargah from './pages/sefareshate-bazargah/sefareshate-bazargah';
 import AIOService from 'aio-service';
 import services from './services';
+import Form from 'aio-form-react';
 import './style.css';
-export default class App extends Component {
+
+export default class App extends Component{
+  constructor(props){
+    super(props);
+    this.state = {model:{username:'',password:''}}
+  }
+  render(){
+    let {model} = this.state;
+    return (
+      <div className='landing'>
+        <Form
+          model={model}
+          style={{width:400,flex:'none'}}
+          inputs={[
+            {type:'text',label:'نام کاربری',field:'model.username'},
+            {type:'text',label:'پسوورد',field:'model.password'},
+          ]}
+          onChange={(model)=>this.setState({model})}
+          onSubmit={()=>{
+
+          }}
+          submitText='ورود'
+        />
+      </div>
+    )
+  }
+}
+class Main extends Component {
   constructor(props){
     super(props);
     this.state = {
