@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-anonymous-default-export
 export default function ({Axios,getState,getDateAndTime,arabicToFarse}) {
-  //let token = getState().token;
-  let token = 'eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwidHlwIjoiSldUIn0.VZ5tCRyC8RovHQY-S2vpTKbhU2qZ9UHm0UKcWhB1WLi0djGhw-pTGQ.Lqfohc3a7go4vO02ccO6rQ.2t1lcYLWzMf9DUBft6AjU8fkaR5V_qg3RDUS8q-17kfJMzqHMfXjC62W0npxQXkbadwE_R4eL_vhSLKCkoNdHslr_rkP8ZIDaxrfvWsPHRLnpPvsVZ1vQTOu8dYLsc3fnV-o75ifceaH_IT72FQtMw8BWGO6PlYExIV4q_dlrsRQ2jAkPBOHoofOaSxqkfludXiW2lj7PY3Z0qUIo9yI8MrQgcHtQHzBHDMbbDS5qesXDLzx_dIes3s4ZdgEOnA97OVKFUwiKq2zlYJX9WAH-Aml5sMgLpJbl-X6JGNcegjzMUFQnnfawh0M54VAY18NqUFHUdNlJzk_nEBeNJZeblOri4c6lWQyUlYE-1EexSh4ROWBG3ndhyK2MAyFaKwzAc2JqAhRqKJBIRi9i7OIZ5kyRidHaCV86Y1Uw-GLU1v636_dr0VnjjK1K8qDxw3cO8ivnxIaLKDWRCGGN2aNdyjxlQcpd1MnlUJ8ytVv8mzt-mTKgH244LYU8xc1aAHxfLZVNFwEeMXkLq7vp8ch1G0a65Keocz5kGw22YilGBUEXMf08ykeH_PneN7oGUFqytNCRxOAqcHwzF6wrJZDVzlOjhKV1aTWvSWtXELr0cVxh2O9wCHF_OJCW-Z8dAc57aYwJwENWh2xcekbLy8EBKt2Q54E2bJj8EYskbp2h90.81dwBYK8bmjjNZ3JLGADXA';
+  debugger
+  let token = getState().token;
   Axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
   let baseUrl = 'https://retailerapp.bbeta.ir/api/v1';
   return {

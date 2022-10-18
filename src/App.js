@@ -9,6 +9,7 @@ import SefareshateBazargah from './pages/sefareshate-bazargah/sefareshate-bazarg
 import AIOService from 'aio-service';
 import services from './services';
 import Form from 'aio-form-react';
+import Axios from 'axios';
 import './style.css';
 
 export default class App extends Component{
@@ -17,7 +18,10 @@ export default class App extends Component{
     this.state = {model:{username:'',password:''}}
   }
   render(){
-    let {model} = this.state;
+    let {model,token} = this.state;
+    if(token){
+      return <Main token={token}/>
+    }
     return (
       <div className='landing'>
         <Form
@@ -28,8 +32,16 @@ export default class App extends Component{
             {type:'text',label:'پسوورد',field:'model.password'},
           ]}
           onChange={(model)=>this.setState({model})}
-          onSubmit={()=>{
-
+          onSubmit={async ()=>{
+            debugger
+            let {model} = this.state;
+            let {username,password} = model;
+            let res = await Axios.post('https://retailerapp.bbeta.ir/api/v1/users/gettoken',{grant_type:'password',username,password})
+            let token;
+            if(res.status === 200){
+              token = res.data.access_token;
+              this.setState({token})
+            }
           }}
           submitText='ورود'
         />
@@ -41,10 +53,7 @@ class Main extends Component {
   constructor(props){
     super(props);
     this.state = {
-      services:AIOService({
-        getState:()=>this.state,
-        apis:services
-      }),
+      token:props.token,
       activityStatuses:{'0':'در انتظار تایید','1':'تایید شده','2':'رد شده'},
       darkhasteBardashtStatuses:{'0':'در انتظار تایید','1':'در انتظار پرداخت','2':'پرداخت شده','3':'رد شده'},
       bazargahStatuses:{
@@ -63,6 +72,10 @@ class Main extends Component {
       },
       users:[]
     }
+    this.state.services = AIOService({
+      getState:()=>this.state,
+      apis:services,
+    })
   }
   async componentDidMount(){
     let {services} = this.state;
