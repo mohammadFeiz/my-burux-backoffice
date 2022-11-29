@@ -3,11 +3,11 @@ export default function ({Axios,getState,getDateAndTime,arabicToFarse}) {
   debugger
   let token = getState().token;
   Axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-  let baseUrl = 'https://retailerapp.bbeta.ir/api/v1';
+  let baseUrl = 'https://apimy.burux.com/api/v1';
   return {
     async users(){
 
-      let result = await Axios.get(`${baseUrl}/Users`);
+      let result = await Axios.get(`${baseUrl}/Users/GetAll`);
       if(!result.data.isSuccess) return;
 
       var users=result.data.data;

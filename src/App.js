@@ -36,7 +36,7 @@ export default class App extends Component{
             debugger
             let {model} = this.state;
             let {username,password} = model;
-            let res = await Axios.post('https://retailerapp.bbeta.ir/api/v1/users/gettoken',{grant_type:'password',username,password})
+            let res = await Axios.post('https://apimy.burux.com/api/v1/users/gettoken',{grant_type:'password',username,password})
             let token;
             if(res.status === 200){
               token = res.data.access_token;
